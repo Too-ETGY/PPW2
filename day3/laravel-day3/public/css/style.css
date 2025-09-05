@@ -1,0 +1,14 @@
+body{
+    background-color: rgb(183, 44, 144) ;
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(95, 160, 127);
+}
+
+.bg-special{
+    background-color: rgb(95, 160, 127);
+}
