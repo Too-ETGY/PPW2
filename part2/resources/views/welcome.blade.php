@@ -7,7 +7,7 @@ Welcome
 @section('content')
 <div class="">
     <h1 style="color: rgb(95, 160, 127)">List gak tau apa</h1>
-    <a href="list" style="text-decoration: underline; font-size: smaller;">ke list yang asli</a>
+    <a href="buku" style="text-decoration: underline; font-size: smaller;">ke list yang asli</a>
     <ol class="list-group list-group-flush">
         @for ($i = 1; $i<=5; $i++)
             <li class="list-group-item bg-transparent">
