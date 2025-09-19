@@ -53,7 +53,7 @@ Buku
         @endforeach
     </div>
 
-    <form method="GET" action="{{ url('/buku') }}" class="mb-3 mt-5 d-flex gap-2">
+    <form method="GET" class="mb-3 mt-5 d-flex gap-2">
         <input type="text" name="judul" class="form-control"
             placeholder="Cari judul buku" value="{{ $search }}">
 

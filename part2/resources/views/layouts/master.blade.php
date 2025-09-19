@@ -13,7 +13,7 @@
     <div class="container-fluid p-0">
         @include('layouts.navbar')
 
-        <main class="container-md mt-5">
+        <main class="container-md my-5">
             @yield('content')
         </main>
     </div>
