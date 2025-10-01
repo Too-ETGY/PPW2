@@ -6,9 +6,24 @@ Buku
 
 @section('content')
 <div class="text-white text-center">
-    <h1 class="mb-5">Daftar Buku</h1>
+    <h1 class="">Daftar Buku</h1>
 
-    <div class="d-flex gap-3 justify-content-between">
+    @if (session('success'))
+        <div id="alert-success" class="alert alert-success">
+            {{ session('success') }}
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const alert = document.getElementById('alert-success');
+                if (alert) {
+                    alert.style.display = 'none';
+                }
+            }, 5000);
+        </script>
+    @endif
+
+    <div class="mt-5 d-flex gap-3 justify-content-between">
         <div class="card mb-3" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Total Buku</h5>
@@ -35,8 +50,8 @@ Buku
         </div>
     </div>
     
-    <h3 class="text-start mt-2">5 Judul paling baru</h3>
-    <div class="d-flex align-item-start ">
+    <h3 class="text-start mt-3">5 Judul paling baru</h3>
+    <div class="d-flex align-item-start">
         @foreach ($five_newest as $index=>$buku)
         <div class="card mx-3" style="width: 18rem;">
             <div class="card-title">
@@ -71,6 +86,8 @@ Buku
         @if (!empty($search) || !empty($nama_penulis))
             <a href="{{ url('/buku') }}" class="btn btn-secondary">X</a>
         @endif
+
+        <a href="{{route('buku.create')}}" class="btn btn-warning">+Tambah</a>
     </form>
     
     <table class="table table-striped table-light">
@@ -85,17 +102,51 @@ Buku
             </tr>
         </thead>
         <tbody>
-            @foreach ($data_buku as $buku)
+            @foreach ($data_buku as $index => $buku)
             <tr>
-                <td>{{ $buku->id }}</td>
+                <td>{{ $index+1 }}</td>
                 <td>{{ $buku->judul }}</td>
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ "Rp.".number_format((float)$buku->harga, 2, ',', '.') }}</td>
                 <td>{{ $buku->tgl_terbit->format('d/m/Y') }}</td>
-                <td></td>
+                <td class="">                    
+                    <a type="button" href="{{route('buku.edit', $buku->id)}}" class="btn btn-warning">
+                        Edit
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-{{ $buku->id }}">
+                        Hapus
+                    </button>
+
+                </td>
             </tr>
+
+            <div class="modal fade" id="modal-{{ $buku->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Yakin ingin menghapus?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                        Judul : {{$buku->judul}} <br>
+                        Penulis : {{$buku->penulis}} <br>
+                        Tanggal terbit : {{$buku->tgl_terbit->format('d/m/Y')}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <form id="deleteForm" action="{{route('buku.destroy', $buku->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Ya</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
             @endforeach
         </tbody>
     </table>
 </div>
+
 @endsection

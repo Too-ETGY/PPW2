@@ -51,4 +51,50 @@ class BukuController extends Controller
             ]
         ));
     }
+
+    public function create()
+    {
+        return view('buku.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'judul' => 'required|max:255',
+            'penulis' => 'required|max:45',
+            'harga' => 'required|integer',
+            'tgl_terbit' => 'required|date'
+        ]);
+
+        Buku::create($validated);
+        return redirect()->route('buku')->with('success', 'A new book has been added!!');
+    }
+
+    public function destroy($id){
+        $buku = Buku::find($id);
+        $buku->delete();
+
+        return redirect()->route('buku');
+    }
+
+    public function edit($id)
+    {
+        $get_buku = Buku::find($id);
+        return view('buku.edit', compact('get_buku'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'judul'      => 'required|max:255',
+            'penulis'    => 'required|max:45',
+            'harga'      => 'required|integer',
+            'tgl_terbit' => 'required|date'
+        ]);
+
+        $buku = Buku::findOrFail($id); 
+        $buku->update($validated);
+
+        return redirect()->route('buku.edit', $id)->with('success', 'The book has been updated successfully!');
+    }
 }
