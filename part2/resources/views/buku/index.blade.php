@@ -116,7 +116,6 @@ Buku
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-{{ $buku->id }}">
                         Hapus
                     </button>
-
                 </td>
             </tr>
 
