@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 // use GuzzleHttp\Middleware;
 use App\Http\Middleware\IsAdmin;
@@ -15,13 +16,9 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/profile', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
-
-Route::middleware(AuthController::class)->group(function() {
-    Route::get('/dashboard', function() {
-        return view('dashboard');
+Route::middleware('auth')->group(function() {
+    Route::get('/dashboard', action: function() {
+        return view(view: 'dashboard');
     })->name('dashboard');    
    
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -31,8 +28,6 @@ Route::middleware(AuthController::class)->group(function() {
             return view('admin.index');
         })->name('admin');
 
-        Route::get('/jobs', function() {
-            return view('admin.job');
-        })->name('admin.jobs');
+        Route::resource('jobs', JobController::class);
     });
 });

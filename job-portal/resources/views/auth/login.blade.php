@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-    <div class="max-w-[335px] lg:max-w-4xl p-6 bg-white rounded-lg">
+    <div class="container card">
         <h2>Login</h2>
 
         @if (session('success'))
@@ -11,7 +11,6 @@
                 {{ session('success') }}
             </div>
         @endif
-        <a href="{{ route('register') }}">register here</a>
 
         <form action="{{ route('login.post') }}" method="post">
             @csrf

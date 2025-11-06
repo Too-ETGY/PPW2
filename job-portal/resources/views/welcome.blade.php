@@ -1,14 +1,9 @@
 @extends('layouts.master')
 
-@section('title', config('app.name', 'Laravel'))
+@section('title', config('app.name', 'Got Job'))
 @section('content')
-    <div class="max-w-[335px] lg:max-w-4xl p-6 bg-white rounded-lg">
-        <h1>Welcome to {{ config('app.name', 'Laravel') }}</h1>
+    <div class="container card">
+        <h1>Welcome to GotJob</h1>
         <p>Your gateway to exciting job opportunities!</p>
     </div>
-
-    @if (Route::has('login'))
-        <div class="h-14.5 hidden lg:block"></div>
-    @endif
-    </body>
-</html>
+@endsection

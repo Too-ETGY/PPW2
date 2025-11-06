@@ -33,7 +33,7 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:HR,Job Seeker',
+            'role' => 'required|in:HR,Job Seeker,Admin',
         ]);
 
         User::create([
@@ -43,7 +43,7 @@ class AuthController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan <a href={{route("login")}}>login</a>.');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
     public function logout(Request $request){

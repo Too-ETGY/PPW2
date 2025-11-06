@@ -3,7 +3,7 @@
 @section('title', 'Register')
 
 @section('content')
-    <div class="max-w-[335px] lg:max-w-4xl p-6 bg-white rounded-lg">
+    <div class="container card">
         <h2>Register</h2>
         <form action="{{ route('register.post') }}" method="post">
             @csrf
@@ -28,6 +28,8 @@
             <label>HR</label><br>
             <input type="radio" name="role" value="Job Seeker">
             <label>Job Seeker</label><br>
+            <input type="radio" name="role" value="Admin">
+            <label>Admin</label><br>
 
             <br>
             <button type="submit">Register</button>
