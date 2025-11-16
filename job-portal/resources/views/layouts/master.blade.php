@@ -27,11 +27,9 @@
                                     <li class="nav-item">
                                         <a href="{{ url('/profile') }}" class="btn btn-outline {{ request()->routeIs('profile') ? 'active' : '' }}">Profile</a>
                                     </li>
-                                    {{-- @if (Auth::user()->IsAdmin) --}}
-                                        <li class="nav-item">
-                                            <a href="{{ url('admin/jobs') }}" class="btn btn-outline {{ request()->routeIs('jobs.index') ? 'active' : '' }}">Jobs</a>
-                                        </li>
-                                    {{-- @endif --}}
+                                    <li class="nav-item">
+                                        <a href="{{ url('/jobs') }}" class="btn btn-outline {{ request()->routeIs('jobs.index') ? 'active' : '' }}">Jobs</a>
+                                    </li>
                                 @else
                                     <li class="nav-item">
                                         <a href="{{ route('login') }}" class="btn {{ request()->routeIs('login') ? 'active' : '' }}">Log in</a>
