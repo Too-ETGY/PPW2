@@ -45,6 +45,7 @@
                     <th>CV</th>
                     <th>Status</th>
                     <th width="180">Aksi</th>
+                    <th>Aksi2</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,6 +101,15 @@
 
                             </div>
                         </td>
+
+                        <td>
+                                <form action="{{ route('applications.destroy', $app->id) }}" method="POST">
+                                    @csrf
+                                    @method('Delete')
+                                    <input type="hidden" name="status" value="Accepted">
+                                    <button class="btn btn-outline-danger btn-sm" type="submit">Hapus</button>
+                                </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -110,6 +120,7 @@
                 @endforelse
             </tbody>
         </table>
+        <a class="btn btn-secondary" href="{{ route('jobs.index') }}">Back</a>
     </div>
 </div>
 

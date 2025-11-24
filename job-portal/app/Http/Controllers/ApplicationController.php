@@ -8,6 +8,13 @@ use App\Models\JobVacancy as Job;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ApplicationsExport;
 use App\Imports\JobsImport;
+// use App\Mail\JobAppliedMail;
+// use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+use App\Notifications\NewApplicationNotification;
+use App\Jobs\SendApplicationMailJob;
+use App\Jobs\SendStatusUpdateMailJob;
+use App\Notifications\ApplicationStatusUpdatedNotification;
 
 class ApplicationController extends Controller
 {
@@ -41,13 +48,22 @@ class ApplicationController extends Controller
         $cvPath = $request->file('cv')->store('cvs', 'public');
         
         try{
-            Application::create([
-            'user_id' => auth()->id(),
-            'job_id' => $jobId,
-            'cv' => $cvPath,
+            $application = Application::create([
+                'user_id' => auth()->id(),
+                'job_id' => $jobId,
+                'cv' => $cvPath,
             ]);
 
+            // Kirim email ke user
+            // Mail::to(auth()->user()->email)
+            // ->send(new JobAppliedMail($application->job, auth()->user()));
+            dispatch(new SendApplicationMailJob($jobId, auth()->user(), $cvPath));
+
+            $admin = User::where('role', 'admin')->first();
+            $admin->notify(new NewApplicationNotification($application));
+
             return back()->with('success', 'Lamaran berhasil dikirim!');
+
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan saat mengirim lamaran.');
         }
@@ -75,8 +91,18 @@ class ApplicationController extends Controller
     public function update(Request $request, string $id)
     {
         $application = Application::findOrFail($id);
-        $application->status = $request->input('status');
+
+        $application->status = $request->status;
+        $application->notes = $request->notes;  // optional field
         $application->save();
+
+        // send email
+        dispatch(new SendStatusUpdateMailJob($application->id));
+
+        // in-app notification
+        $application->user->notify(
+            new ApplicationStatusUpdatedNotification($application)
+        );
 
         return back()->with('success', 'Status aplikasi berhasil diperbarui.');
     }
