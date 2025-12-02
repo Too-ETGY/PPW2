@@ -25,9 +25,9 @@ class NewApplicationNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
-    {
-        return ['mail', 'database'];
+        public function via(object $notifiable): array
+        {
+            return ['mail', 'database'];
     }
 
     /**
