@@ -92,9 +92,10 @@ class JobApiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Job $job)
     {
-        //
+        $job = Job::findOrFail($job->id);
+        return response()->json($job);
     }
 
     /**
